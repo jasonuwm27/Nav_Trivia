@@ -1,0 +1,446 @@
+/* ── Reset & base ────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: 'Libre Franklin', Arial, sans-serif;
+  background: #060ce9;
+  color: #fff;
+}
+
+/* ── App layout ──────────────────────────────────────── */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 12px 16px;
+}
+
+.disclaimer {
+  position: fixed;
+  top: 12px;
+  right: 18px;
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: #ff4444;
+  font-style: italic;
+  z-index: 50;
+  pointer-events: none;
+  text-align: right;
+  text-shadow: 0 0 8px rgba(255, 68, 68, 0.6);
+  animation: pulse-disclaimer 2s ease-in-out infinite;
+}
+
+@keyframes pulse-disclaimer {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.05); }
+}
+
+/* ── ScoreBoard ──────────────────────────────────────── */
+.scoreboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0 14px;
+}
+
+.teams-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Team cards */
+.team-card {
+  border: 3px solid var(--team-color);
+  border-radius: 10px;
+  padding: 10px 20px;
+  min-width: 160px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.12s;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.team-card:hover {
+  transform: scale(1.04);
+}
+
+.team-card--active {
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 14px var(--team-color);
+}
+
+.team-card__name {
+  font-size: 0.95rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--team-color);
+  margin-bottom: 4px;
+}
+
+.team-card__score {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #ffcc00;
+}
+
+.team-card__adjust {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 6px;
+}
+
+.team-card__adjust button {
+  padding: 3px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.team-card__adjust button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+/* Controls row */
+.scoreboard__controls {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.scoreboard__btn {
+  padding: 8px 18px;
+  border: 2px solid #ffcc00;
+  border-radius: 6px;
+  background: transparent;
+  color: #ffcc00;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.scoreboard__btn:hover {
+  background: #ffcc00;
+  color: #060ce9;
+}
+
+.scoreboard__btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.scoreboard__btn:disabled:hover {
+  background: transparent;
+  color: #ffcc00;
+}
+
+.scoreboard__btn--add {
+  border-color: #44dd44;
+  color: #44dd44;
+}
+
+.scoreboard__btn--add:hover:not(:disabled) {
+  background: #44dd44;
+  color: #fff;
+}
+
+.scoreboard__btn--remove {
+  border-color: #ff9f1a;
+  color: #ff9f1a;
+}
+
+.scoreboard__btn--remove:hover:not(:disabled) {
+  background: #ff9f1a;
+  color: #fff;
+}
+
+.scoreboard__btn--buzzer {
+  border-color: #ff4444;
+  color: #ff4444;
+  font-size: 1.1rem;
+}
+
+.scoreboard__btn--buzzer:hover {
+  background: #ff4444;
+  color: #fff;
+}
+
+.scoreboard__btn--reset {
+  border-color: #aaa;
+  color: #aaa;
+}
+
+.scoreboard__btn--reset:hover {
+  background: #aaa;
+  color: #060ce9;
+}
+
+.scoreboard__btn--fullscreen {
+  border-color: #00ced1;
+  color: #00ced1;
+}
+
+.scoreboard__btn--fullscreen:hover {
+  background: #00ced1;
+  color: #060ce9;
+}
+
+.scoreboard__btn--switch {
+  border-color: #ff69b4;
+  color: #ff69b4;
+}
+
+.scoreboard__btn--switch:hover {
+  background: #ff69b4;
+  color: #fff;
+}
+
+/* ── Board grid ──────────────────────────────────────── */
+.board {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ── Category column ─────────────────────────────────── */
+.category-column {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.category-header {
+  background: #060ce9;
+  border: 3px solid #000;
+  padding: 14px 6px;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.2;
+}
+
+/* ── Question tile ───────────────────────────────────── */
+.tile {
+  background: #060ce9;
+  border: 3px solid #000;
+  padding: 18px 6px;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #ffcc00;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, transform 0.1s;
+  user-select: none;
+}
+
+.tile:hover {
+  background: #1a1aff;
+  transform: scale(1.03);
+}
+
+.tile--used {
+  background: #03006b;
+  color: transparent;
+  cursor: default;
+  border-color: #03006b;
+}
+
+.tile--used:hover {
+  background: #03006b;
+  transform: none;
+}
+
+/* ── Question modal (full-screen overlay) ────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: #060ce9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 40px;
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.modal-category {
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  opacity: 0.7;
+  margin-bottom: 6px;
+}
+
+.modal-value {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #ffcc00;
+  margin-bottom: 30px;
+}
+
+.modal-question {
+  font-size: 2.2rem;
+  font-weight: 700;
+  text-align: center;
+  max-width: 800px;
+  line-height: 1.4;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.modal-answer {
+  margin-top: 30px;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #ffcc00;
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+}
+/* Solution steps below the answer */.modal-steps {  margin-top: 18px;  padding: 16px 24px;  background: rgba(0, 0, 0, 0.25);  border-radius: 10px;  border: 1px solid rgba(255, 204, 0, 0.3);  max-width: 700px;  animation: fadeIn 0.4s ease;}.modal-step {  font-size: 1.1rem;  font-weight: 700;  color: rgba(255, 255, 255, 0.9);  padding: 4px 0;  text-align: left;}
+
+/* Team selector inside the modal */
+.modal-team-select {
+  display: flex;
+  gap: 10px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.modal-team-btn {
+  padding: 8px 20px;
+  border: 2px solid var(--team-color);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--team-color);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, transform 0.1s;
+}
+
+.modal-team-btn:hover {
+  transform: scale(1.06);
+}
+
+.modal-team-btn--active {
+  background: var(--team-color);
+  color: #fff;
+  box-shadow: 0 0 10px var(--team-color);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 36px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.modal-btn {
+  padding: 12px 32px;
+  border: 2px solid #ffcc00;
+  border-radius: 8px;
+  background: transparent;
+  color: #ffcc00;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.modal-btn:hover {
+  background: #ffcc00;
+  color: #060ce9;
+}
+
+.modal-btn--correct {
+  border-color: #00cc44;
+  color: #00cc44;
+}
+
+.modal-btn--correct:hover {
+  background: #00cc44;
+  color: #fff;
+}
+
+.modal-btn--wrong {
+  border-color: #ff4444;
+  color: #ff4444;
+}
+
+.modal-btn--wrong:hover {
+  background: #ff4444;
+  color: #fff;
+}
+
+/* ── Responsive ──────────────────────────────────────── */
+@media (max-width: 800px) {
+  .category-header {
+    font-size: 0.7rem;
+    padding: 8px 3px;
+    min-height: 60px;
+  }
+  .tile {
+    font-size: 1rem;
+    padding: 10px 3px;
+    min-height: 56px;
+  }
+  .modal-question {
+    font-size: 1.5rem;
+  }
+  .modal-answer {
+    font-size: 1.3rem;
+  }
+  .team-card {
+    min-width: 120px;
+    padding: 8px 12px;
+  }
+  .team-card__score {
+    font-size: 1.4rem;
+  }
+}
